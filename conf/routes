@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.home()
+
+# Login
+GET     /login                      controllers.Application.login()
+GET     /logout                     controllers.Application.logout()
+
+# Application pages
+GET     /app                        controllers.Application.appInterface()
+GET     /app/profile                controllers.Application.appProfile()
+GET     /app/requests               controllers.Application.appRequests()
+
+GET     /image/user/:id             controllers.Application.userImage(id: Long)
+GET     /image/vehicle/:id          controllers.Application.vehicleImage(id: Long)
+
+POST    /app/profile/save           controllers.Application.saveProfile()
+POST    /app/sendRequest            controllers.Application.sendRequest()
+POST    /app/acceptRejectRequest    controllers.Application.acceptRejectRequest()
+
+POST    /app/sendMessage            controllers.Application.sendMessage(eAddress: String, comment: String)
+POST    /app/sendText               controllers.Application.sendText(phone: String, carrier: String, eAddress: String, comment: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

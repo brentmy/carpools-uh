@@ -1,0 +1,113 @@
+@(data: controllers.Data)
+
+@App(data) {
+<div class="requests">
+  @if(!data.getUser("user").hideAlerts()) {
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>Getting Started</h4>
+      <p>
+        This page shows you all requests. Ones that you have made, and ones that others are requesting of you.
+      </p>
+    </div>
+  }
+
+  <h1>Requests</h1>
+
+  <h4>Requests Sent</h4>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Driver</th>
+        <th>Days (Times)</th>
+        <th>Status</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      @for(request <- data.getRequests("requestsAsRequester")) {
+        <tr>
+          <td>@request.driver().name() <small>(@request.driver().username())</small></td>
+          <td>
+            @request.timeM()
+            @request.timeT()
+            @request.timeW()
+            @request.timeR()
+            @request.timeF()
+          </td>
+          <td>@request.status()</td>
+          <td>@request.responseMessage()</td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+
+  <h4>Requests Received</h4>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Driver</th>
+        <th>Days (Times)</th>
+        <th>Status</th>
+        <th>Message</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      @for(request <- data.getRequests("requestsAsDriver")) {
+        <tr>
+          <td>@request.requester().name() <small>(@request.requester().username())</small></td>
+          <td>
+            @request.timeM()
+            @request.timeT()
+            @request.timeW()
+            @request.timeR()
+            @request.timeF()
+          </td>
+          <td>@request.status()</td>
+          <td>@request.message()</td>
+          <td>
+            <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#info-modal-@request.id()">Change Status</button>
+          </td>
+        </tr>
+
+        <div id="info-modal-@request.id()" class="modal fade info-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                @helper.form(routes.Application.acceptRejectRequest) {
+                  <input type="hidden" name="requestId" value="@request.id()" />
+
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Accept or Reject the Request</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p><strong>Requested By: @request.requester().name()</strong></p>
+                    <p>@request.timeM()</p>
+                    <p>@request.timeT()</p>
+                    <p>@request.timeW()</p>
+                    <p>@request.timeR()</p>
+                    <p>@request.timeF()</p>
+                    <div class="form-group">
+                      <label>Message for @request.requester().name()</label>
+                      <textarea class="form-control" name="message"></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="type" value="accept"><i class="fa fa-check"></i> Accept</button>
+                    <button type="submit" class="btn btn-danger" name="type" value="reject"><i class="fa fa-times"></i> Reject</button>
+                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                } <!-- </form> -->
+              </div>
+            </div>
+          </div>
+      }
+
+    </tbody>
+  </table>
+</div>
+}

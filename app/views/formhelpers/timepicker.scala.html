@@ -1,0 +1,53 @@
+@(field:Field)
+
+<div class="timepicker">
+  <input type="hidden" name="@field.name" value="@field.value" />
+  <a class="btn btn-default toggle" data-default="Click to set a time">
+    @if(field.value && !field.value.get.isEmpty()) {
+      @field.value
+    } else {
+      Click to set a time
+    }
+  </a>
+  <div class="popover fade top">
+    <div class="arrow"></div>
+    <h3 class="popover-title">
+      Set a Time
+      <a class="close">&times;</a>
+    </h3>
+    <div class="popover-content">
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="btn-input-group-vertical hours">
+            <a class="btn btn-sm btn-default down"><i class="fa fa-chevron-up"></i></a>
+            <input class="form-control" type="text" disabled />
+            <a class="btn btn-sm btn-default up"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="btn-input-group-vertical minutes">
+            <a class="btn btn-sm btn-default down"><i class="fa fa-chevron-up"></i></a>
+            <input class="form-control" type="text" disabled />
+            <a class="btn btn-sm btn-default up"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="btn-input-group-vertical ampm">
+            <a class="btn btn-sm btn-default down"><i class="fa fa-chevron-up"></i></a>
+            <input class="form-control" type="text" disabled />
+            <a class="btn btn-sm btn-default up"><i class="fa fa-chevron-down"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group">
+          <a class="btn btn-block btn-primary set-time">Set Time</a>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-block btn-default clear">Clear</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+@(data: controllers.Data)(content: Html)
+
+@Main(data) {
+
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="@routes.Application.appInterface()">Carpools UH</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li @if(request.uri.equals(routes.Application.appProfile().toString())) { class="active" }>
+          <a href="@routes.Application.appProfile()">Profile</a>
+        </li>
+        <li @if(request.uri.equals(routes.Application.appRequests().toString())) { class="active" }>
+          <a href="@routes.Application.appRequests()">Requests</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a>@data.getUser("user").username()&#64;hawaii.edu</a></li>
+        <li><a  href="@routes.Application.logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="application">
+    @content
+  </div>
+  <hr />
+</div>
+
+}

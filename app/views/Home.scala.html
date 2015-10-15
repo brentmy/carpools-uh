@@ -1,0 +1,99 @@
+@(data: controllers.Data)
+
+@Main(data) {
+
+<div class="home">
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header pull-left">
+        <a class="navbar-brand">Carpools UH</a>
+      </div>
+      <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="@routes.Application.login()">Login via UH</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="home">
+  <div class="home-header">
+    <h1>Carpools UH</h1>
+  </div>
+
+  <div class="home-section">
+    <div class="container">
+      <h2>
+        <span>100%</span>
+        <i class="fa fa-users"></i>
+        <span>UHM</span>
+      </h2>
+      <p>
+        <em>UH 24/7/365</em>
+      </p>
+      <p>
+        Carpools are only back and forth from UH.</br>
+        No more looking if the people are actually going to your destination.</br>
+        Convenient place where you can have multiple avenues of transportation.
+      </p>
+    </div>
+  </div>
+
+  <div class="home-road">
+    <div class="home-road-line"></div>
+  </div>
+
+  <div class="home-section alt">
+    <div class="container">
+      <h2>
+        <span>Share</span>
+        <i class="fa fa-pagelines"></i>
+        <span>Aloha</span>
+      </h2>
+      <p>
+        <em>Help your fellow students and make friends</em>
+      </p>
+      <p>
+        Notifications are sent to you every time a ride is requested and clicking on it shows who sent you a request.</br>
+        Rating system and pictures allow you to view prospective drivers</br>
+        Help others and help alleviate traffic on the road.
+      </p>
+    </div>
+  </div>
+
+  <div class="home-road">
+    <div class="home-road-line"></div>
+  </div>
+
+  <div class="home-section">
+    <div class="container">
+      <h2>
+        <span>We're Safe</span>
+        <i class="fa fa-lock"></i>
+        <span>We're Secure</span>
+      </h2>
+      <p>
+        <em>Get to school without worry</em>
+      </p>
+      <p>
+        Sign up through the UH system and you can easily set up a time schedule and modify it at will.</br>  
+        Notifications are sent to you every time a ride is requested and clicking on it shows who sent you a request.</br>
+        All riders and drivers are within the UH system and thus everyone will be accountable.
+      </p>
+    </div>
+  </div>
+
+  <div class="home-road">
+    <div class="home-road-line"></div>
+  </div>
+
+  <div class="home-section alt">
+    <div class="row">
+      <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <h2>Start Here!</h2>
+        <a class="btn btn-primary btn-lg btn-block" href="@routes.Application.login()"><i class="fa fa-lock"></i> Login Via UH</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+}

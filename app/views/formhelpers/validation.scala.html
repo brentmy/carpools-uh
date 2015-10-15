@@ -1,0 +1,7 @@
+@(field:Field)
+
+@if(field.hasErrors) {
+  <div class="has-error">
+    <span class="help-block text-danger">@field.error.get.message</span>
+  </div>
+}

@@ -1,0 +1,251 @@
+/**
+ * General Styles
+ */
+body {
+  background-color: #fdfdfd;
+  font-family: 'Roboto';
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Condensed';
+  font-weight: bold;
+}
+
+.clear {
+  clear: both;
+}
+.btn {
+  outline: none!important;
+}
+.checkbox label {
+  vertical-align: top;
+}
+
+/**
+ * Home Page
+ */
+.home .navbar {
+  border-radius: 0;
+  border-width: 0;
+  margin-bottom: 0;
+}
+.home .navbar-header.pull-right .navbar-brand {
+  font-size: 14px;
+}
+.home-header {
+  background-image: url('../images/manoa.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 80px 0;
+  text-align: center;
+  width: 100%
+}
+.home-header h1 {
+  color: white;
+  font-size: 64px;
+  font-weight: bold;
+  line-height: 1.4;
+  margin: 0;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+.home-section {
+  background-color: white;
+  padding: 25px;
+  text-align: center;
+}
+.home-section.alt {
+  background-color: #e5e5e5;
+}
+.home-section h2 span {
+  display: inline-block;
+  white-space: nowrap;
+  width: 40%;
+}
+.home-section h2 span:first-child {
+  text-align: right;
+}
+.home-section h2 span:last-child {
+  text-align: left;
+}
+.home-road {
+  background-color: #333;
+  padding: 20px; 
+}
+.home-road-line {
+  border-top: 3px dashed #ff0;
+}
+
+/**
+ * App custom icons and tooltips
+ */
+.application .icon {
+  background-size: contain;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.application .no-smoking {
+  background-image: url('../images/icons/no_smoking.png');
+}
+.application .no-eating {
+  background-image: url('../images/icons/no_eating.png');
+}
+.application .no-drinking {
+  background-image: url('../images/icons/no_drinking.png');
+}
+.application .tooltip {
+  white-space: nowrap;
+}
+
+/**
+ * App Interface
+ */
+.filters .form-group {
+  margin: 0;
+}
+.drivers .driver {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .drivers .driver {
+    padding-left: 10px;
+    width: 49%;
+  }
+}
+@media (min-width: 992px) {
+  .drivers .driver {
+    padding-left: 7px;
+    padding-right: 3px;
+    width: 33%;
+  }
+}
+
+/* Filters */
+.application .interface .filters .checkbox {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+/* Tile */
+.application .interface .driver .panel {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.application .interface .driver .panel-heading h4 {
+  margin: 0;
+}
+
+.application .interface .driver .table th,
+.application .interface .driver .table td {
+  font-size: 12px;
+}
+
+.application .interface .driver .preferences,
+.application .interface .driver .meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.application .interface .driver .preferences {
+  float: left;
+}
+
+.application .interface .driver .meta {
+  float: right;
+}
+
+.application .interface .driver .buttons {
+  clear: both;
+  padding-top: 5px;
+}
+
+/* Tile/Modal */
+.application .interface .drivers .images {
+  margin: -15px;
+  margin-bottom: 0;
+}
+.application .interface .drivers .images img {
+  float: left;
+  width: 50%;
+}
+
+.application .interface .drivers .table th,
+.application .interface .drivers .table td {
+  text-align: center;
+}
+.application .interface .drivers .table th:first-child,
+.application .interface .drivers .table td:first-child {
+  text-align: right;
+  width: 1px;
+}
+.application .interface .drivers .table .checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 32px;
+  width: 0;
+}
+
+/**
+ * App Profile
+ */
+.application .profile img {
+  width: 100%;
+}
+.application .profile .thumbnail.image-input {
+  margin-bottom: 0;
+}
+.application .profile .hidden-file-input {
+  overflow: hidden;
+  width: 0;
+  height: 0;
+}
+table#times-available th,
+table#times-available td input[type="text"] {
+  text-align: center;
+}
+table#times-available th {
+  vertical-align: middle;
+}
+table#times-available .form-group {
+  margin-bottom: 0;
+}
+
+.timepicker {
+  position: relative;
+  text-align: center;
+}
+.timepicker .popover {
+  width: 276px;
+}
+.timepicker .popover .popover-title {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 22px;
+}
+.timepicker .btn-input-group-vertical .btn,
+.timepicker .btn-input-group-vertical input.form-control {
+  width: 60px;
+}
+.timepicker .btn-input-group-vertical .btn:first-child {
+  border-radius: 3px 3px 0 0;
+}
+.timepicker .btn-input-group-vertical .btn:last-child {
+  border-radius: 0 0 3px 3px;
+}
+.timepicker .btn-input-group-vertical input.form-control {
+  border-radius: 0;
+  margin: -1px 0;
+}
+
+/**
+ * App Requests
+ */
+.application .requests .table {
+  width: auto;
+}
+.application .requests .table td {
+  vertical-align: middle;
+}

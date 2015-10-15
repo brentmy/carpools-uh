@@ -1,0 +1,157 @@
+@(data: controllers.Data, userForm: Form[models.formdata.UserFormData])
+
+@App(data) {
+
+<div class="profile">
+  @if(!data.getUser("user").hideAlerts()) {
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>Getting Started</h4>
+      <p>
+        In this page, you can edit your general information. You can also publish your carpool which enables other users to find and request a ride from you.
+      </p>
+    </div>
+  }
+
+  @if(userForm.hasErrors()) {
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <p>
+        There are errors in the form.
+      </p>
+    </div>
+  }
+
+  @if(Http.Context.current().flash.get("success")) {
+    <div class="alert alert-success alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <p>
+        @Http.Context.current().flash.get("success")
+      </p>
+    </div>
+  }
+
+  <h1>Profile</h1>
+
+  @helper.form(routes.Application.saveProfile(), 'enctype -> "multipart/form-data") {
+
+    <input type="hidden" name="username" value="@userForm("username").value" />
+
+    <hr />
+
+    <h2>
+      <label>
+        @formhelpers.checkbox(userForm("isDriver")) Driver
+        <small>(Check to enable other users to find and request a ride from you)</small>
+      </label>
+    </h2>
+
+    @formhelpers.text(userForm("name"), label="Name", placeholder="What's your name?")
+
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        @formhelpers.image(userForm("userImage"), "Image of Yourself", routes.Application.userImage(data.getUser("user").id()).toString())
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        @formhelpers.image(userForm("vehicleImage"), "Image of Vehicle", routes.Application.vehicleImage(data.getUser("user").id()).toString())
+      </div>
+    </div>
+    <hr/>
+
+    <div class="row">
+      <div class="col-sm-6">
+        @formhelpers.text(userForm("origin"), label="Origin", placeholder="Where do you live?")
+
+        @formhelpers.textarea(userForm("comment"), label="Comment", placeholder="Message for potential carpoolers.")
+      </div>
+
+      <div class="col-sm-6 form-group">
+        <label>Preferences</label>
+        <div class="checkbox">
+          <label>@formhelpers.checkbox(userForm("noSmoking")) <i class="icon no-smoking"></i> No Smoking</label>
+        </div>
+        <div class="checkbox">
+          <label>@formhelpers.checkbox(userForm("noEating")) <i class="icon no-eating"></i> No Eating</label>
+        </div>
+        <div class="checkbox">
+          <label>@formhelpers.checkbox(userForm("noDrinking")) <i class="icon no-drinking"></i> No Drinking</label>
+        </div>
+      </div>
+    </div>
+
+    <h4>Times Available</h4>
+    @if(!data.getUser("user").hideAlerts()) {
+      <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p>
+          <strong>Arrival</strong> refers to the time that you will arrive at UH.
+        </p>
+        <p>
+          <strong>Return</strong> refers to the time that you will be leaving the campus to go home.
+        </p>
+      </div>
+    }
+    <table id="times-available" class="table table-condensed">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Mon<span class="hidden-xs">day</span></th>
+          <th>Tue<span class="hidden-xs">sday</span></th>
+          <th>Wed<span class="hidden-xs">nesday</span></th>
+          <th>Thu<span class="hidden-xs">rsday</span></th>
+          <th>Fri<span class="hidden-xs">day</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Arrival</th>
+          <td>@formhelpers.timepicker(userForm("arrivalM"))</td>
+          <td>@formhelpers.timepicker(userForm("arrivalT"))</td>
+          <td>@formhelpers.timepicker(userForm("arrivalW"))</td>
+          <td>@formhelpers.timepicker(userForm("arrivalR"))</td>
+          <td>@formhelpers.timepicker(userForm("arrivalF"))</td>
+        </tr>
+        <tr>
+          <th>Return</th>
+          <td>@formhelpers.timepicker(userForm("returnM"))</td>
+          <td>@formhelpers.timepicker(userForm("returnT"))</td>
+          <td>@formhelpers.timepicker(userForm("returnW"))</td>
+          <td>@formhelpers.timepicker(userForm("returnR"))</td>
+          <td>@formhelpers.timepicker(userForm("returnF"))</td>
+        </tr>
+      </tbody>
+    </table>
+    @formhelpers.validation(userForm("timeValidation"))
+
+    <hr />
+
+    <h2>Options</h2>
+    <div class="checkbox">
+      <label>@formhelpers.checkbox(userForm("hideAlerts")) Hide Help Text</label>
+    </div>
+
+    <h3>Notifications</h3>
+    <div class="checkbox">
+      <label>@formhelpers.checkbox(userForm("emailNotifications"))  Receive Email Notifications</label>
+    </div>
+    <div class="checkbox">
+      <label>@formhelpers.checkbox(userForm("textNotifications"))  Receive Text Notifications</label>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        @formhelpers.text(userForm("phone"), label="Phone Number", placeholder="###-###-####")
+      </div>
+      <div class="col-sm-6">
+        @formhelpers.select(userForm("carrier"), optionMap=models.formdata.Carriers.getTypes(data.getUser("user").carrier()), label="Carrier") 
+      </div>
+    </div>
+
+    <hr />
+
+    <div>
+      <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Save Changes</button>
+    </div>
+  }
+</div>
+
+}

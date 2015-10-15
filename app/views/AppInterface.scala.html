@@ -1,0 +1,295 @@
+@(data:controllers.Data, requestForm:Form[models.formdata.RequestFormData])
+
+@App(data) {
+
+<div class="interface">
+  @if(!data.getUser("user").hideAlerts()) {
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4>Getting Started</h4>
+      <p>
+        Browse below for available rides. Use the filtering options to quickly find rides relevant to you.
+      </p>
+      <p>
+        If you would like to offer a ride, edit your <a href="@routes.Application.appProfile()">profile</a>, and enable the "Driver" option.
+      </p>
+    </div>
+  }
+
+  @if(Http.Context.current().flash.get("success")) {
+    <div class="alert alert-success alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <p>
+        @Http.Context.current().flash.get("success")
+      </p>
+    </div>
+  }
+  
+  <h1>Drivers</h1>
+
+  <div class="filters panel panel-info">
+    <div class="panel-heading">Filters</div>
+    <div class="panel-body">
+      <form class="form-horizontal">
+        @if(!data.getStrings("locations").isEmpty()) {
+          <div class="form-group filter-locations">
+            <label class="control-label col-sm-2">Locations</label>
+            <div class="col-sm-10">
+              @for(location <- data.getStrings("locations")) {
+                <div class="checkbox">
+                  <label><input type="checkbox" data-location="@location" /> @location</label>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="form-group filter-days">
+          <label class="control-label col-sm-2">Days</label>
+          <div class="col-sm-10">
+            <div class="checkbox">
+              <label><input type="checkbox" data-day="monday" /> <strong>M</strong>onday</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" data-day="tuesday" /> <strong>T</strong>uesday</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" data-day="wednesday" /> <strong>W</strong>ednesday</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" data-day="thursday" /> Thu<strong>R</strong>sday</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" data-day="friday" /> <strong>F</strong>riday</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group filter-preferences">
+          <label class="control-label col-sm-2">Preferences</label>
+          <div class="col-sm-10">
+            <div class="checkbox">
+              <label><input type="checkbox" /> No Smoking</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" /> No Eating</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" /> No Drinking</label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="drivers">
+    @for(driver <- data.getUsers("drivers")) {
+      <div class="driver" data-origin="@driver.origin()"
+                          data-monday="@(driver.arrivalM() + driver.returnM())"
+                          data-tuesday="@(driver.arrivalT() + driver.returnT())"
+                          data-wednesday="@(driver.arrivalW() + driver.returnW())"
+                          data-thursday="@(driver.arrivalR() + driver.returnR())"
+                          data-friday="@(driver.arrivalF() + driver.returnF())"
+                          data-no-smoking="@driver.noSmoking()"
+                          data-no-eating="@driver.noEating()"
+                          data-no-drinking="@driver.noDrinking()">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4>@driver.name() <small>@driver.username()</small></h4></div>
+          <div class="panel-body">
+            <div class="images">
+              <img src="@routes.Application.userImage(driver.id())" />
+              <img src="@routes.Application.vehicleImage(driver.id())" />
+            </div>
+            <p>@driver.comment()</p>
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>M</th><th>T</th><th>W</th><th>R</th><th>F</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>A</th>
+                  <td>@if(driver.arrivalM()) { @driver.arrivalM() } else { - }</td>
+                  <td>@if(driver.arrivalT()) { @driver.arrivalT() } else { - }</td>
+                  <td>@if(driver.arrivalW()) { @driver.arrivalW() } else { - }</td>
+                  <td>@if(driver.arrivalR()) { @driver.arrivalR() } else { - }</td>
+                  <td>@if(driver.arrivalF()) { @driver.arrivalF() } else { - }</td>
+                </tr>
+                <tr>
+                  <th>R</th>
+                  <td>@if(driver.returnM()) { @driver.returnM() } else { - }</td>
+                  <td>@if(driver.returnT()) { @driver.returnT() } else { - }</td>
+                  <td>@if(driver.returnW()) { @driver.returnW() } else { - }</td>
+                  <td>@if(driver.returnR()) { @driver.returnR() } else { - }</td>
+                  <td>@if(driver.returnF()) { @driver.returnF() } else { - }</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul class="preferences">
+              @if(driver.noSmoking()) {
+                <li class="icon no-smoking" data-toggle="tooltip" data-placement="top" title="No Smoking"></li>
+              }
+              @if(driver.noEating()) {
+                <li class="icon no-eating" data-toggle="tooltip" data-placement="top" title="No Eating"></li>
+              }
+              @if(driver.noDrinking()) {
+                <li class="icon no-drinking" data-toggle="tooltip" data-placement="top" title="No Drinking"></li>
+              }
+            </ul>
+            <div class="meta">
+              <!-- <span class="label label-success"><i class="fa fa-star"></i> 4</span> -->
+              <span class="label label-default">@driver.origin()</span>
+            </div>
+            <div class="buttons">
+              <button class="btn btn-info btn-block" data-toggle="modal" data-target="#info-modal-@driver.id()"><i class="fa fa-info-circle"></i> View Info</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      @defining(requestForm != null && requestForm("driverUsername").value == driver.username()) { error =>
+        <div id="info-modal-@driver.id()" class="modal fade info-modal @if(error){visible}" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              @helper.form(routes.Application.sendRequest) {
+                <input type="hidden" name="requesterUsername" value="@data.getUser("user").username()" />
+                <input type="hidden" name="driverUsername" value="@driver.username()" />
+
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">@driver.name() <small>@driver.username()</small></h4>
+                </div>
+                <div class="modal-body">
+
+                  @if(error) {
+                    <div class="alert alert-danger alert-dismissable">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <p>
+                        There are errors in the form.
+                      </p>
+                    </div>
+                  }
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="images">
+                        <img src="@routes.Application.userImage(driver.id())" />
+                        <img src="@routes.Application.vehicleImage(driver.id())" />
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <p><strong>Location:</strong> @driver.origin()</p>
+                      <p>
+                        <strong>Comment:</strong>
+                        @if(!driver.comment().isEmpty()) {
+                          @driver.comment()
+                        } else { <span class="text-muted">no comment</p> }
+                      </p>
+                      <p>
+                        @if(driver.noSmoking()) {
+                          <span class="icon no-smoking" data-toggle="tooltip" data-placement="top" title="No Smoking"></span>
+                        }
+                        @if(driver.noEating()) {
+                          <span class="icon no-eating" data-toggle="tooltip" data-placement="top" title="No Eating"></span>
+                        }
+                        @if(driver.noDrinking()) {
+                          <span class="icon no-drinking" data-toggle="tooltip" data-placement="top" title="No Drinking"></span>
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <hr/>
+                  <h4>Request a Ride</h4>
+                  <label>Days/Times Available <small class="text-muted">Check the days to request</small></label>
+                  <table class="table table-condensed">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Arrival</th>
+                        <td>
+                          @if(driver.arrivalM().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="arrivalM"> @driver.arrivalM()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.arrivalT().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="arrivalT"> @driver.arrivalT()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.arrivalW().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="arrivalW"> @driver.arrivalW()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.arrivalR().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="arrivalR"> @driver.arrivalR()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.arrivalF().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="arrivalF"> @driver.arrivalF()</label></div>
+                          } else { - }
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Return</td>
+                        <td>
+                          @if(driver.returnM().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="returnM"> @driver.returnM()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.returnT().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="returnT"> @driver.returnT()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.returnW().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="returnW"> @driver.returnW()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.returnR().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="returnR"> @driver.returnR()</label></div>
+                          } else { - }
+                        </td>
+                        <td>
+                          @if(driver.returnF().length > 0) {
+                            <div class="checkbox"><label><input type="checkbox" name="returnF"> @driver.returnF()</label></div>
+                          } else { - }
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  @if(error) {
+                    @formhelpers.validation(requestForm("timeValidation"))
+                  }
+                  
+                  <hr/>
+
+                  <div class="form-group">
+                    <label>Message <small class="text-muted">Sent with the request</small></label>
+                    <textarea class="form-control" rows="3" name="message">@if(error) {@requestForm("message").value}</textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-comment"></i> Request Ride</button>
+                  <button class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              } <!-- </form> -->
+            </div>
+          </div>
+        </div>
+      }
+    } <!-- end for each driver -->
+  </div>
+</div>
+}
